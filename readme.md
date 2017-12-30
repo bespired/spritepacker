@@ -5,6 +5,8 @@ Build with
 
 # SPRITEPACKER
 
+[![SPRITEPACKER](https://github.com/bespired/spritepacker/blob/master/public/projects/spritepacker.png?raw=true)](https://github.com/bespired/spritepacker)
+
 
 If you only need the app then clone the project
 
