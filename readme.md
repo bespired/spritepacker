@@ -49,3 +49,11 @@ and run watch in another terminal aside from your backend server
 $ npm run watch
 ```
 
+
+todo:
+* upload sprites.
+* create new project
+( for now add folder and sprites in the public/project folder )
+
+
+
