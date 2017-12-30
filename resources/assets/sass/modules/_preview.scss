@@ -1,0 +1,16 @@
+.list.the-sprites li:hover{
+	background-color: #41b883;
+	cursor: pointer;
+}
+
+#preview{
+	background-image:url('data:image/gif;base64,R0lGODlhIAAgAIAAAP///8zMzCwAAAAAIAAgAAACR4yPGcDtD5Q8sLY5rcVSV654EJiID4mYDkqpDGu4LyxHtAwv+O3mtb9j1X48FbBXNB2NSdFS2fQ8nVHNVFrdZD/bUff0XcEKADs=');
+	position: relative;
+
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	border: 1px solid black;
+	max-width: max-content;
+
+}

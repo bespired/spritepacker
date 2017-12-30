@@ -1,0 +1,20 @@
+.hidden {
+    display: none;
+}
+
+@each $breakpoint, $value in $breakpoints {
+    @include susy-media($value) {
+        .#{$breakpoint}-hidden { display: none; }
+        .#{$breakpoint}-visible { display: block; }
+    }
+}
+
+// State inversion.
+.state-inversed.state-visible,
+.state-invisible {
+    display: none;
+}
+
+.state-inversed.state-invisible {
+    display: block;
+}

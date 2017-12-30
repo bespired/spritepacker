@@ -1,0 +1,48 @@
+a:hover{
+	cursor: pointer;
+}
+
+.vue-accordion input.accordion {
+	display: none;
+}
+
+.vue-accordion label.accordion {
+	background: #eee;
+	cursor: pointer;
+	display: block;
+	margin-bottom: .125em;
+	padding: .25em 1em;
+	z-index: 20;
+}
+
+.vue-accordion label.accordion:hover {
+	background: #ccc;
+}
+
+.vue-accordion input.accordion:checked + label {
+	background: #ccc;
+	color: white;
+	margin-bottom: 0;
+}
+.vue-accordion article {
+	background: #f7f7f7;
+	max-height: 0;
+	overflow: hidden;
+	z-index: 10;
+	transition: max-height 300ms, padding 300ms;
+
+}
+.vue-accordion article p {
+	padding: 1em;
+}
+.vue-accordion article .list li {
+	padding: 2px;
+}
+
+.vue-accordion input.accordion:checked article {
+}
+.vue-accordion input.accordion:checked ~ article {
+	max-height: 400px;
+	margin-bottom: .125em;
+	padding: 6px 4px;
+}

@@ -1,0 +1,30 @@
+
+
+.table-wrapper{
+	display: table;
+}
+
+.table-panel{
+ 	display: table-cell;
+	background-color: #cecece;
+	vertical-align: top;
+
+}
+
+// .flex-wrapper{
+// 	display: flex;
+// 	flex-flow: row wrap;
+// 	align-items: stretch;
+// 	height: 100vh;
+// 	justify-content: space-between;
+// }
+
+// .flex-panel{
+//  	flex: 1;
+//   	background-color: #dedede;
+//   	overflow: auto;
+// }
+// .flex-panel-auto{
+//  	flex:1 1;
+//   	background-color: #cecece;
+// }

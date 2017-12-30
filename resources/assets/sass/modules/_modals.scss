@@ -1,0 +1,33 @@
+.modal{
+	position: fixed;
+
+    top: 0;
+    width: 600px;
+    min-height: 300px;
+    background-color: white;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 1em;
+    -webkit-box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.2);
+
+    .list a{
+        padding: 3px 12px;
+    }
+
+    footer{
+        position: absolute;
+        bottom : 1em;
+    }
+}
+.modal-protect{
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color: rgba(0,0,0, 0.1);
+}
+

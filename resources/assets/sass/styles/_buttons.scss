@@ -1,0 +1,22 @@
+a.button:hover{
+	background-color: #41b883;
+	color: white;
+	border-color: black;
+}
+
+a.button.disabled{
+	background-color: #ccc;
+	color: grey;
+	border-color: grey;
+}
+
+.vue-accordion .button{
+	height: 28px;
+	min-width: 50%;
+	padding: 0rem 1rem;
+}
+
+.vue-accordion input[type=text]{
+	height: 28px;
+	min-width: 100%;
+}
