@@ -44,7 +44,7 @@ $ cd spritepacker
 $ npm install
 ```
 
-and run watch in another terminal then your backend server
+and run watch in another terminal aside from your backend server
 ```sh
 $ npm run watch
 ```
