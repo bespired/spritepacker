@@ -35,13 +35,16 @@ html, body, *{
 	left: 300px;
     height: 100%;
     overflow-y: hidden;
+    border-left: 1px solid grey;
 }
 
 .the-right{
 	position:absolute;
 	top: 0;
 	right: 0;
-	width: 200px;
+	width: 300px;
+	background-color: white;
+	border-left: 1px solid grey;
 	.list{
 		font-size: 12px;
 	}
@@ -52,6 +55,8 @@ html, body, *{
 	overflow: auto;
 	ul li {
 		padding: 1px 8px;
+		overflow: hidden;
+    	white-space: nowrap;
 	}
 }
 .sprite-tools{
@@ -86,3 +91,11 @@ html, body, *{
     text-align: center;
     padding-top: 23vh;
 }
+
+@media (max-width: 600px) {
+	.the-right  { width: 148px;}
+	.the-sidebar{ width: 150px;}
+	.the-canvas { left : 150px; }
+
+}
+

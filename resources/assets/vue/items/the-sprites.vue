@@ -94,7 +94,7 @@
 					:class="{ 'selected': item.selected }"
 					@click="preview(item)"
 					>
-					<i class="fa fa-image"/> {{ item.name }}
+					<i class="box"/> {{ item.name }}
 				</li>
 			</ul>
 		</div>

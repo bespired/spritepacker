@@ -9,16 +9,20 @@
 
 		methods: {
 			maxparent: function(){
-				let left = document.getElementsByClassName('the-sidebar')[0];
-				let right= document.getElementsByClassName('the-right')[0];
-				let scale = 1;
+				let left   = document.getElementsByClassName('the-sidebar')[0];
+				let right  = document.getElementsByClassName('the-right')[0];
+				let scale  = 1;
+				let margin = 0;
 				if ( left && right ){
-					let lwidth= parseInt(getComputedStyle(left , null).getPropertyValue("width"));
-					let rwidth= parseInt(getComputedStyle(right, null).getPropertyValue("width"));
+					let lwidth= 2+ parseInt(getComputedStyle(left , null).getPropertyValue("width"));
+					let rwidth= 2+ parseInt(getComputedStyle(right, null).getPropertyValue("width"));
 
-					let w= window.innerWidth - lwidth - rwidth;
+					let w = window.innerWidth - lwidth - rwidth;
 					scale = w / this.$store.state.guix.values.maxsize;
-					if ( scale > 1 ) scale = 1;
+					if ( scale > 1 ) {
+						scale = 1;
+						margin = ( w - this.$store.state.guix.values.maxsize ) / 2;
+					}
 
 					let thecanvas = document.getElementById('canvas');
 					let rect = thecanvas.getBoundingClientRect();
@@ -26,7 +30,8 @@
 
 				}
 				return {
-					transform: `scale(${scale})`
+					transform: `scale(${scale})`,
+					marginLeft: `${margin}px`,
 				}
 			},
 

@@ -29,3 +29,13 @@ ul.list.selectable li.selected:hover{
 	background-color: #59b4ca;
 	color: white;
 }
+
+.box{
+    display: inline-block;
+    width: 14px;
+    height: 10px;
+    border: 1px solid #777777;
+    background-color: #ccd7e2;
+    margin-right: 1px;
+    margin-bottom: -1px;
+}
