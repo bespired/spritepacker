@@ -1,4 +1,4 @@
-class MaxRect {
+class FitRect {
 
     static sort(sprites, canvas){
 
@@ -55,4 +55,4 @@ class MaxRect {
     }
 }
 
-export default MaxRect;
+export default FitRect;

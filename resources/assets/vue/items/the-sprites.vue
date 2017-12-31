@@ -2,13 +2,32 @@
 	export default {
 		data: function(){
 			return {
-				current: null
+				current : null,
 			}
 		},
 
 		created: function () {
     		window.addEventListener('keyup',   this.nextsprite)
     		window.addEventListener('keydown', this.noscroll)
+
+			let vm = this;
+			this.$nextTick(function () {
+				let rpanel= document.getElementsByClassName('the-right')[0];
+				rpanel.ondragover  = function (event) {
+					vm.$store.commit('guix_dropzone', true);
+					event.preventDefault();
+				};
+				rpanel.ondragleave = function (event) {
+					vm.$store.commit('guix_dropzone', false);
+					event.preventDefault();
+				};
+				rpanel.ondrop      = function (event) {
+					vm.$store.commit('guix_dropzone', false);
+					vm.$store.commit('guix_sprites_upload', event.dataTransfer.files);
+					event.preventDefault();
+				};
+			});
+
   		},
 
 		beforeDestroy: function () {
@@ -57,7 +76,7 @@
 				if (this.current !== undefined){
 					this.$store.commit('sprites_preview', this.current);
 					document.getElementById('preview').src = this.current.url;
-					// this.$forceUpdate();
+
 				}
 			},
 		}
@@ -83,10 +102,13 @@
 			<a class="button"
 				v-if="current"
 				@click="remove()"
-				>Delete Selected</a>
+					>Delete Selected</a>
 		</div>
 		<div class="the-preview" >
 			<img id="preview"/>
+		</div>
+		<div class="the-dropzone" v-show="this.$store.state.guix.dropzone">
+			Drop your sprite here
 		</div>
 	</div>
 </template>

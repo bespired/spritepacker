@@ -21,6 +21,6 @@ Route::apiResources([
     'projects' => 'ProjectController',
 ]);
 
-Route::post('project/img',    'ProjectController@img')->middleware('api');
-
+Route::post('project/img',    'ProjectController@img')   ->middleware('api');
 Route::post('sprite/remove',  'ProjectController@remove')->middleware('api');
+Route::post('sprite/upload',  'ProjectController@upload')->middleware('api');

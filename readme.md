@@ -50,10 +50,12 @@ $ npm run watch
 ```
 
 
+
+
 todo:
-* upload sprites.
 * create new project
-( for now add folder and sprites in the public/project folder )
+* remove multiple selected sprites
+* replace 'location.reload' after upload with local sprite updates
 
 
 

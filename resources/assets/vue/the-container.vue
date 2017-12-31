@@ -17,6 +17,9 @@
             TheSidebar, TheCanvas , TheSprites,
         },
 
+        methods:{
+        },
+
         mounted() {
             console.log('Sprite Packer 1.0');
             this.$store.dispatch('guix_init_panels');
@@ -25,7 +28,6 @@
 				this.$store.dispatch('sprites_load_project');
 				this.$store.dispatch('guix_edit_panels');
 			}
-
         }
     }
 </script>

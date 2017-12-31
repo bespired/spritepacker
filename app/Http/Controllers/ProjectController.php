@@ -88,6 +88,65 @@ class ProjectController extends Controller
 
     }
 
+    public function upload(Request $request)
+    {
+        $prjct   = json_decode($request->get('project'));
+
+        $projects = $this->folderlist();
+        $project = (object)collect($projects)->firstWhere('folder', $prjct->folder);
+
+        if (!$project) return;
+        $count = 0;
+
+        $projectpath= public_path('projects'. '/' . $project->folder ) .'/sprites/';
+
+        foreach ($request->file as $file) {
+
+            $name = str_replace(' ','-',$file->getClientOriginalName());
+            $succes = $file->move($projectpath, $name);
+            if ($succes){
+                $count++;
+            }
+
+        }
+
+        return [
+            'status'  => 'uploaded',
+            'project' => $project,
+            'amount'  => $count,
+        ];
+    }
+
+    public function remove(Request $request)
+    {
+
+        $prjct   = $request->get('project');
+        $list    = $request->get('remove');
+        if ( !$prjct ) return;
+
+        $projects = $this->folderlist();
+        $project = (object)collect($projects)->firstWhere('folder', $prjct['folder']);
+
+        if (!$project) return;
+
+        $projectpath= public_path('projects'). '/' .$project->folder . '/';
+        $count  = 0;
+        foreach ($list as $sprite) {
+            $filename = sprintf('sprites/%s', $sprite['name']);
+            if ( file_exists($projectpath . $filename)){
+                unlink( $projectpath . $filename );
+                $count++;
+            }
+        }
+
+        return [
+            'status'  => 'removed',
+            'project' => $project,
+            'amount'  => $count,
+        ];
+
+    }
+
     private function folderlist()
     {
         $pattern     = sprintf('%s/*', public_path('projects'));
@@ -114,23 +173,6 @@ class ProjectController extends Controller
             ->with('project',   $project);
     }
 
-    public function remove(Request $request)
-    {
 
-        $prjct   = $request->get('project');
-        if ( !$prjct ) return;
-
-        $projects = $this->folderlist();
-        $project = (object)collect($projects)->firstWhere('folder', $prjct['folder']);
-
-        if (!$project) return;
-
-        $list   = $request->get('remove');
-        foreach ($list as $sprite) {
-
-        }
-        print_r($list);
-
-    }
 
 }

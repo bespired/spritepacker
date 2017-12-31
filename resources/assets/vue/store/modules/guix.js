@@ -1,3 +1,4 @@
+import FitRect     from "../plugins/FitRect";
 import MaxRect     from "../plugins/MaxRect";
 import MaxHeight   from "../plugins/MaxHeight";
 import MaxWidth    from "../plugins/MaxWidth";
@@ -27,6 +28,7 @@ const state = {
     toload  : 0,
 
     canvas  : {},
+    dropzone: false,
 
 };
 
@@ -66,7 +68,12 @@ const mutations = {
         state.canvas = rect;
     },
 
+    guix_dropzone(state, set){
+        state.dropzone = set;
+    },
+
     image_loaded(state, sprite) {
+
         sprite.loaded = true;
         sprite.load   = true;
 
@@ -98,8 +105,8 @@ const mutations = {
 
             if ( right == -1 ) return [0,0,0,0];
 
-            if ( left > 0 ) left--;
-            if ( top  > 0 ) top--;
+            // if ( left > 0 ) left--;
+            // if ( top  > 0 ) top--;
             if ( right  < cnvs.width ) right++;
             if ( bottom < cnvs.height) bottom++;
 
@@ -183,6 +190,43 @@ const mutations = {
 
     },
 
+    sprite_add(state, sprite){
+        state.sprites.push(sprite);
+        state.sprites = _.sortBy(state.sprites, 'name');
+    },
+
+    guix_sprites_upload(state, dropped){
+
+        var reader = [];
+
+        // reader.onloadend = function (event) {
+        //     var image = document.getElementById('preview');
+        //     image.src = event.target.result;
+        // };
+
+        var formData = new FormData();
+        var vm = this;
+
+        formData.append('project', JSON.stringify(global.project));
+
+        for (var i = 0; i < dropped.length; i++) {
+            console.log(dropped[i]);
+            formData.append('file[]', dropped[i]);
+        }
+
+        axios.post('/api/sprite/upload', formData)
+            .then(function (response) {
+                location.reload();
+                // console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+
+
+    },
+
+
     sprites_preview(state, selected){
         _.forEach(state.sprites, function (sprite) {
             sprite.selected = false;
@@ -191,7 +235,6 @@ const mutations = {
             if (sprite.name == selected.name)
                 sprite.selected = true;
         });
-
         state.sprites.splice(0,0);
     },
 
@@ -212,6 +255,9 @@ const mutations = {
         let sprites = _.clone(state.sprites);
 
         switch(state.values.algorithm){
+            case 'fit-rect':
+                FitRect.sort(sprites, canvas);
+                break;
             case 'max-rect':
                 MaxRect.sort(sprites, canvas);
                 break;
@@ -357,10 +403,11 @@ const guix_maxsizes = [
 ];
 
 const guix_algorithms = [
-    { 'label' : 'Max rect' ,          'value' : 'max-rect'     },
-    { 'label' : 'Max height' ,        'value' : 'max-height'   },
-    { 'label' : 'Max width' ,         'value' : 'max-width'   },
-    { 'label' : 'Height over width' , 'value' : 'height-width' },
+    { 'label' : 'Fit Rect' ,          'value' : 'fit-rect'     },
+    { 'label' : 'Max Rect' ,          'value' : 'max-rect'     },
+    { 'label' : 'Max Height' ,        'value' : 'max-height'   },
+    { 'label' : 'Max Width' ,         'value' : 'max-width'    },
+    { 'label' : 'Height over Width' , 'value' : 'height-width' },
 ];
 
 const guix_dataformats = [
