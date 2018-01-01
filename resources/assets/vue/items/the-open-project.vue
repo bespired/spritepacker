@@ -41,9 +41,9 @@
 		Open Project
 		<ul class="list selectable">
 			<li v-for="(project, index) in this.$store.state.guix.projects"
-				:key="index"
-				:class="[selected[project.id] ? 'selected' : '']"
-				@click="open(project)"
+					:key="index"
+					:class="[selected[project.id] ? 'selected' : '']"
+					@click="open(project)"
 				>
 				<a>
 					<i class="fa fa-file-text"></i> {{ project.name }}

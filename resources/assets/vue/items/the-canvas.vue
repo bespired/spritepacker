@@ -2,54 +2,11 @@
 	export default {
 		data: function(){
 			return {
-				bgimage : `background-image: url(${this.$store.state.guix.image})`,
 				pointing: null,
 			};
 		},
 
 		methods: {
-			maxparent: function(){
-				let left   = document.getElementsByClassName('the-sidebar')[0];
-				let right  = document.getElementsByClassName('the-right')[0];
-				let scale  = 1;
-				let margin = 0;
-				if ( left && right ){
-					let lwidth= 2+ parseInt(getComputedStyle(left , null).getPropertyValue("width"));
-					let rwidth= 2+ parseInt(getComputedStyle(right, null).getPropertyValue("width"));
-
-					let w = window.innerWidth - lwidth - rwidth;
-					scale = w / this.$store.state.guix.values.maxsize;
-					if ( scale > 1 ) {
-						scale = 1;
-						margin = ( w - this.$store.state.guix.values.maxsize ) / 2;
-					}
-
-					let thecanvas = document.getElementById('canvas');
-					let rect = thecanvas.getBoundingClientRect();
-					this.$store.commit('guix_canvas', rect);
-
-				}
-				return {
-					transform: `scale(${scale})`,
-					marginLeft: `${margin}px`,
-				}
-			},
-
-			pointer: function () {
-				if ( !this.pointing) return {};
-
-				let style = {
-					'position'      : 'absolute',
-					'border'        : '4px solid green',
-					'left'          : `${this.pointing.draw.dx+2}px`,
-    				'top'           : `${this.pointing.draw.dy+2}px`,
-    				'width'         : `${this.pointing.size.wx}px`,
-    				'height'        : `${this.pointing.size.wy}px`,
-    				'pointerEvents' : 'none',
-    				'cursor'        : 'pointer',
-    			};
-				return style;
-			},
 
 			hovering:function(rx,ry){
 				if ( this.$store.state.guix.sprites.length == 0  ) return;
@@ -68,7 +25,6 @@
 			},
 
 			hover: function(event){
-
 				let ax= event.clientX - this.$store.state.guix.canvas.left;
 				let ay= event.clientY - this.$store.state.guix.canvas.top;
 
@@ -80,6 +36,7 @@
 				this.pointing = this.hovering(rx, ry);
 				if ( !this.pointing) return;
 
+				this.$store.dispatch('guix_set_pointer', this.pointing);
 				document.getElementById('preview').src = this.pointing.url;
 
 			},
@@ -94,7 +51,8 @@
 
 				if ( !this.pointing) return;
 
-				console.log('commit:', this.pointing);
+				// console.log('commit:', this.pointing);
+				// this.$store.dispatch('guix_set_pointer', this.pointing);
 				this.$store.commit('sprites_preview', this.pointing);
 			},
 
@@ -103,18 +61,22 @@
 		mounted:function(){
 			let vm = this;
 			window.addEventListener('resize', function() {
+				vm.$store.dispatch('guix_max_canvas');
 				vm.$forceUpdate();
 			});
-		}
 
+			this.$store.dispatch('guix_max_canvas');
+
+		},
     }
 </script>
-
 <template>
 	<div class="the-canvas" ref="grid">
-		<div class='canvas-grid'
-			:style="maxparent()"
-			v-if="this.$store.state.guix.values.maxsize">
+		<div class='canvas-grid canvas-size'>
+				<div
+					v-show="pointing"
+					class="canvas-pointer pointer-pos"
+				/>
 				<canvas id="canvas"
 					:width ="this.$store.state.guix.values.maxsize"
 					:height="this.$store.state.guix.values.maxsize"
@@ -123,11 +85,30 @@
 					v-on:mouseout ="leave"
 					v-on:mouseup  ="select"
 				/>
-			<div
-				v-show="pointing"
-				v-bind:style="pointer()"
-			/>
-		</div>
 
+		</div>
 	</div>
 </template>
+<!-- <template>
+	<div class="the-canvas" ref="grid">
+		<div class='canvas-grid'
+			:style="maxparent()"
+			v-if="this.$store.state.guix.values.maxsize"
+		>
+				<div
+					v-show="pointing"
+					v-bind:style="pointer()"
+					class="canvas-pointer"
+				/>
+				<canvas id="canvas"
+					:width ="this.$store.state.guix.values.maxsize"
+					:height="this.$store.state.guix.values.maxsize"
+					ref= "thecanvas"
+					v-on:mousemove="hover"
+					v-on:mouseout ="leave"
+					v-on:mouseup  ="select"
+				/>
+
+		</div>
+	</div>
+</template> -->

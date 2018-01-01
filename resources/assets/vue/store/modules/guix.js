@@ -30,9 +30,26 @@ const state = {
     canvas  : {},
     dropzone: false,
 
+    classes:{
+        canvas : '',
+        pointer: ''
+    }
+
 };
 
 const mutations = {
+
+    classes_pointer(state, style)
+    {
+        state.classes.pointer = style;
+        document.getElementById('pointer-pos').innerHTML = `.pointer-pos{ ${style} }`;
+    },
+
+    classes_canvas(state, style)
+    {
+        state.classes.canvas = style;
+        document.getElementById('canvas-size').innerHTML= `.canvas-size{ ${style} }`;
+    },
 
     guix_update_value(state, payload) {
         state.values[payload.item.store] = payload.value;
@@ -128,6 +145,7 @@ const mutations = {
 
         if ( state.loaded == state.toload ) {
             this.commit('guix_create_sheet');
+            this.dispatch('guix_max_canvas');
         }
 
     },
@@ -306,12 +324,12 @@ const actions= {
 
     sprites_load_project(context) {
 
-
         axios.get(`/api/projects/${project.folder}`)
             .then(response => {
 
                 // meta ?
                 context.commit('meta_loaded', response.data.settings);
+                context.dispatch('guix_max_canvas');
 
                 // let JS add an IMG to this data.
                 context.commit('sprites_loaded', response.data.sprites);
@@ -337,6 +355,7 @@ const actions= {
     },
 
     guix_init_panels(context) {
+
         context.commit('clear_panels');
         context.commit('add_panel', {
             label  : 'Project',
@@ -346,6 +365,7 @@ const actions= {
                 { 'label' : 'Create',   'type' : 'action', 'commit' : 'guix_open_modal' , 'with' : 'new'  },
             ]
         });
+
     },
 
     guix_edit_panels(context) {
@@ -392,8 +412,51 @@ const actions= {
 
     },
 
+
+    guix_max_canvas(context) {
+
+        let left   = document.getElementsByClassName('the-sidebar')[0];
+        let right  = document.getElementsByClassName('the-right')[0];
+        let scale  = 1;
+        let margin = 0;
+        if ( left && right ){
+            let lwidth= 2+ parseInt(getComputedStyle(left , null).getPropertyValue("width"));
+            let rwidth= 2+ parseInt(getComputedStyle(right, null).getPropertyValue("width"));
+
+            let w = window.innerWidth - lwidth - rwidth;
+            scale = w / context.state.values.maxsize;
+            if ( scale > 1 ) {
+                scale = 1;
+                margin = ( w - context.state.values.maxsize ) / 2;
+            }
+
+            // console.log(scale, w, lwidth, rwidth, window.innerWidth, context.state.values.maxsize);
+
+            let thecanvas = document.getElementById('canvas');
+            let rect      = thecanvas.getBoundingClientRect();
+            context.commit('guix_canvas', rect);
+        }
+
+        context.commit('classes_canvas', `transform: scale(${scale}); margin-left: ${margin}px`);
+    },
+
+
+    guix_set_pointer(context, sprite) {
+        // if (!this.sprite) return {};
+
+        let style = {
+            'left'          : `${sprite.draw.dx+2}px`,
+            'top'           : `${sprite.draw.dy+2}px`,
+            'width'         : `${sprite.size.wx}px`,
+            'height'        : `${sprite.size.wy}px`,
+        };
+
+        let str_style = `left:${style.left};top:${style.top};width:${style.width};height:${style.height}`;
+        context.commit('classes_pointer', str_style);
+    }
+
+
 };
-// ctx.drawImage(image, dx, dy);
 
 const guix_maxsizes = [
     { 'label' : '256x256'  , 'value' : '256' },
@@ -421,3 +484,4 @@ export default {
     mutations,
     actions,
 };
+

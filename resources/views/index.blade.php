@@ -10,6 +10,9 @@
 
         <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+        <style id="canvas-size">.canvas-size{}</style>
+        <style id="pointer-pos">.pointer-pos{}</style>
     </head>
     <body>
         <div id="app-wrapper">
