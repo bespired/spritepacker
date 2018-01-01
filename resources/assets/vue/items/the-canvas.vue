@@ -67,6 +67,16 @@
 
 			this.$store.dispatch('guix_max_canvas');
 
+			// watch on the store \≧O≦/
+			this.$store.watch(
+    			function(state) {
+        			return vm.$store.state.guix.values.maxsize;
+    			},
+    			function () {
+        			vm.$store.dispatch('guix_max_canvas');
+    			}
+			);
+
 		},
     }
 </script>
